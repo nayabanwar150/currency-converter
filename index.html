@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- FontAwsome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>USD-INR Conversion</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding-top: 0;
+    }
+
+    body {
+        background: url("./bg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+    }
+
+    .navbar {
+        justify-content: center;
+    }
+
+    .card {
+        height: 75vh;
+    }
+
+    .btn-success {}
+</style>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <h3><i class="fa fa-dollar"></i>USD - <i class="fa fa-inr"></i>INR Conversion</h3>
+        </a>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12 col-lg-6 ">
+                <div class="mb-5">
+                    <h4>Assignment-2</h4>
+                <button><a href="signup.html">Create Account</a></button>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-6">
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h2>Currency Converter</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" style="font-size: 20px;">1 United States Dollar</p>
+                        <h5 class="card-title" style="font-size: 40px;" id="rateShow"></h5>
+                        <div class="form">
+                            <form>
+                                <div class="form-group">
+                                    <label for="inputUSD" style="font-size: 25px;">Enter Amount in <i
+                                            class="fa fa-dollar"></i>USD</label>
+                                    <input type="text" id="usd" class="form-control" placeholder="USD"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </div>
+                                <div class="result">
+                                    <h1 id="inr"></h1>
+                                </div>
+                                <input type="button" class="btn btn-success btn-md" onclick="convert()"
+                                    value="Convert to INR" style="font-size: 20px;">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var rate = 0;
+        fetch(`https://api.exchangerate-api.com/v4/latest/USD`)
+                .then(res => res.json())
+                .then(res => {
+                    rate = res.rates["INR"];
+                    document.getElementById("rateShow").innerHTML = rate.toFixed(2)+" Indian Rupee";
+                });
+        function convert() {
+            var USD = parseFloat(document.getElementById("usd").value);
+            document.getElementById("inr").innerHTML = (rate*USD).toFixed(2);
+        }
+    </script>
+</body>
+
+</html>
